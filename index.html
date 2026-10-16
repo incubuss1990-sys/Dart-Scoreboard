@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#101522">
+  <meta name="description" content="Dart-Scoreboard für 301, 501, 701 und Cricket. Mehrere Spieler, Einzelwürfe oder Gesamtpunkte pro Aufnahme.">
+  <title>Dartboard | Scoreboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">◎</span><div><strong>DARTBOARD</strong><small>Dein digitales Scoreboard</small></div></div>
+      <div class="top-actions"><span class="live-pill" id="gameLabel">Noch kein Spiel</span><button class="ghost small" id="newGameBtn" type="button">+ Neues Spiel</button></div>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="section-eyebrow">DARTS · SCORE TRACKER</div>
+        <div class="hero-top"><div><h1>Game on<span class="accent">.</span></h1><p id="statusMessage">Richte dein Spiel ein und wirf die ersten Darts.</p></div><div class="round-pill" id="roundLabel">Runde –</div></div>
+      </section>
+
+      <div id="matchView" hidden>
+        <section class="players-section" aria-label="Spieler und Spielstände">
+          <div class="section-heading"><h2>Spielstand</h2><span class="subtle" id="playersHint">Aktueller Spieler ist markiert</span></div>
+          <div class="player-grid" id="playersGrid"></div>
+        </section>
+        <section class="layout">
+          <div class="play-column">
+            <section class="panel throw-panel" aria-label="Eingabe">
+              <div class="panel-title"><div><div class="section-eyebrow">AM OCHÉ</div><h2 id="activePlayerName">Spieler</h2></div><span class="turn-badge" id="throwCount">Dart 1 von 3</span></div>
+              <div id="turnProgress" class="turn-progress"></div>
+              <div class="tabs" role="group" aria-label="Eingabemodus">
+                <button id="singleTab" type="button" class="tab active" aria-pressed="true">🎯 Einzeldarts</button>
+                <button id="totalTab" type="button" class="tab" aria-pressed="false">∑ Gesamtpunkte</button>
+              </div>
+              <div id="singlePanel">
+                <p class="help" id="singleHelp">Erst Single, Double oder Triple wählen, dann das getroffene Feld.</p>
+                <div class="multiplier-control" id="multiplierControl" role="group" aria-label="Trefferart">
+                  <button type="button" data-mult="1" class="choice selected">Single <strong>×1</strong></button>
+                  <button type="button" data-mult="2" class="choice">Double <strong>×2</strong></button>
+                  <button type="button" data-mult="3" class="choice">Triple <strong>×3</strong></button>
+                </div>
+                <div class="segment-grid" id="segmentGrid" aria-label="Dartfelder"></div>
+              </div>
+              <div id="totalPanel" hidden>
+                <div id="x01Total">
+                  <label class="field-label" for="totalScore">Punkte dieser Aufnahme (0–180)</label>
+                  <input id="totalScore" type="number" inputmode="numeric" min="0" max="180" placeholder="z. B. 100">
+                  <div class="checkout-extra" id="checkoutExtra">
+                    <label class="checkline"><input id="doubleCheckout" type="checkbox"> Letzter Dart war Double / Bull 50 (für Double-Out)</label>
+                    <label class="field-label" for="dartsUsed">Geworfene Darts dieser Aufnahme</label>
+                    <select id="dartsUsed"><option value="3">3 Darts</option><option value="2">2 Darts</option><option value="1">1 Dart</option></select>
+                    <small class="hint">Für eine normale Aufnahme 3 Darts wählen. Bei einem Checkout gegebenenfalls 1 oder 2.</small>
+                  </div>
+                  <button id="submitTotal" class="primary wide" type="button">Punkte übernehmen →</button>
+                </div>
+                <div id="cricketTotal" hidden>
+                  <p class="help">Bei Cricket zählt, <strong>welche Felder</strong> du triffst. Erfasse bis zu drei Darts und übernimm sie gemeinsam.</p>
+                  <div class="draft-list" id="draftList"></div>
+                  <div class="row-buttons"><button id="commitDraft" class="primary" type="button">Aufnahme übernehmen</button><button id="clearDraft" class="ghost" type="button">Eingabe löschen</button></div>
+                </div>
+              </div>
+              <p id="inputError" class="form-error" role="alert" aria-live="polite"></p>
+              <div class="bottom-actions"><button type="button" id="undoBtn" class="ghost">↶ Rückgängig</button><button type="button" id="endTurnBtn" class="ghost">Aufnahme beenden ↷</button></div>
+            </section>
+          </div>
+          <aside class="sidebar">
+            <section class="panel" id="cricketBoard" hidden><div class="section-heading"><h2>Cricket-Board</h2></div><div class="table-wrap" id="cricketTable"></div><p class="help">× = 1 Treffer, ⊗ = 2 Treffer, ✓ = geschlossen. Zusätzliche Treffer geben Punkte, solange Gegner noch offen sind.</p></section>
+            <section class="panel"><div class="section-heading"><h2>Statistik</h2></div><div class="table-wrap" id="statsTable"></div></section>
+            <section class="panel"><div class="section-heading"><h2>Letzte Aufnahmen</h2></div><div id="historyList" class="history-list"></div></section>
+          </aside>
+        </section>
+      </div>
+      <section class="empty-state" id="emptyState"><div class="empty-icon">🎯</div><h2>Bereit für die erste Runde?</h2><p>301, 501, 701 oder Cricket – mit bis zu 8 Spielern.</p><button class="primary" type="button" id="startFirstBtn">Spiel starten →</button></section>
+    </main>
+    <footer>Made for the oche · Lokal im Browser gespeichert · Version 1.0</footer>
+  </div>
+  <div class="modal-backdrop" id="setupModal" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="setupHeading">
+      <div class="modal-head"><div><div class="section-eyebrow">SPIEL EINRICHTEN</div><h2 id="setupHeading">Neues Dartspiel</h2></div><button id="closeSetup" type="button" class="close" aria-label="Schließen">×</button></div>
+      <form id="setupForm">
+        <label class="field-label" for="modeSelect">Spielmodus</label>
+        <select id="modeSelect"><option value="501">501</option><option value="301">301</option><option value="701">701</option><option value="cricket">Cricket</option></select>
+        <div id="outModeWrap"><label class="field-label" for="outSelect">Checkout-Regel</label><select id="outSelect"><option value="double">Double-Out (Standard)</option><option value="single">Single-Out</option></select></div>
+        <label class="field-label" for="playerCount">Anzahl Spieler</label>
+        <select id="playerCount"><option value="1">1 Spieler</option><option value="2" selected>2 Spieler</option><option value="3">3 Spieler</option><option value="4">4 Spieler</option><option value="5">5 Spieler</option><option value="6">6 Spieler</option><option value="7">7 Spieler</option><option value="8">8 Spieler</option></select>
+        <div class="field-label">Spielernamen</div><div id="playerNames" class="player-names"></div>
+        <p class="hint">Fortschritt wird auf diesem Gerät gespeichert. Ein neues Spiel ersetzt das aktuelle.</p>
+        <button type="submit" class="primary wide">Spiel beginnen 🎯</button>
+      </form>
+    </section>
+  </div>
+  <div id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
