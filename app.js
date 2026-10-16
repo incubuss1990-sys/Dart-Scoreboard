@@ -79,6 +79,8 @@ function applyHit(n,m){
   if(invalid){
    const consumed=previous+1,desc=[...game.turn.map(x=>x.label),name].join(" · ");
    player.darts+=3-consumed;
+   player.score=game.startScore;
+   player.scored-=turnScore;
    advanceTurn("BUST · "+desc,0,3,{bust:true});
    toast("Bust! Punkte bleiben unverändert");
   }else{
