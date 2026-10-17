@@ -1,0 +1,24 @@
+{
+  "name": "Dart-Scoreboard",
+  "short_name": "Darts",
+  "description": "Dart-Scoreboard für 301, 501, 701 und Cricket",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0c111c",
+  "theme_color": "#101522",
+  "icons": [
+    {
+      "src": "dart-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "dart-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

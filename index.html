@@ -6,13 +6,16 @@
   <meta name="theme-color" content="#101522">
   <meta name="description" content="Dart-Scoreboard für 301, 501, 701 und Cricket. Mehrere Spieler, Einzelwürfe oder Gesamtpunkte pro Aufnahme.">
   <title>Dartboard | Scoreboard</title>
-  <link rel="stylesheet" href="style.css?v=1.4">
-  <script src="app.js?v=1.4" defer></script>
+  <link rel="icon" type="image/png" sizes="192x192" href="dart-icon-192.png?v=1.5">
+  <link rel="apple-touch-icon" href="dart-icon-192.png?v=1.5">
+  <link rel="manifest" href="site.webmanifest?v=1.5">
+  <link rel="stylesheet" href="style.css?v=1.5">
+  <script src="app.js?v=1.5" defer></script>
 </head>
 <body>
   <div class="app">
     <header class="topbar">
-      <div class="brand"><span class="brand-mark" aria-hidden="true">◎</span><div><strong>DARTBOARD</strong><small>Dein digitales Scoreboard</small></div></div>
+      <div class="brand"><span class="brand-mark" aria-hidden="true"><img src="dart-icon-192.png?v=1.5" alt=""></span><div><strong>DARTBOARD</strong><small>Dein digitales Scoreboard</small></div></div>
       <div class="top-actions"><span class="live-pill" id="gameLabel">Noch kein Spiel</span><button class="ghost small" id="newGameBtn" type="button">+ Neues Spiel</button></div>
     </header>
     <main>
@@ -75,7 +78,7 @@
       </div>
       <section class="empty-state" id="emptyState"><div class="empty-icon">🎯</div><h2>Bereit für die erste Runde?</h2><p>301, 501, 701 oder Cricket – mit bis zu 8 Spielern.</p><button class="primary" type="button" id="startFirstBtn">Spiel starten →</button></section>
     </main>
-    <footer>Made for the oche · Lokal im Browser gespeichert · Version 1.4</footer>
+    <footer>Made for the oche · Lokal im Browser gespeichert · Version 1.5</footer>
   </div>
   <div class="modal-backdrop" id="setupModal" hidden>
     <section class="modal" role="dialog" aria-modal="true" aria-labelledby="setupHeading">

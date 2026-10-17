@@ -2,7 +2,7 @@
 
 Mobile Web-App für Dartspiele – ohne Installation und ohne Server.
 
-## Funktionen (Version 1.4)
+## Funktionen (Version 1.5)
 
 - 301 / 501 / 701 mit Single-Out oder Double-Out
 - Cricket (15–20 und Bull, mit Punktezählung)
@@ -39,3 +39,7 @@ Lade `index.html`, `style.css` und `app.js` gemeinsam in denselben Ordner und ö
 - `index.html` – Benutzeroberfläche
 - `style.css` – mobiloptimiertes Design
 - `app.js` – Spielelogik und Speicherung
+
+## App-Symbol und Startbildschirm
+
+Das Motiv Nr. 3 ist als PNG mit 192 und 512 Pixeln hinterlegt. Das Web App Manifest erlaubt es, die Webseite auf Android zum Startbildschirm hinzuzufügen. Bei bereits vorhandenen Verknüpfungen kann es nötig sein, sie zu entfernen und neu hinzuzufügen, bis das neue Symbol erscheint.
