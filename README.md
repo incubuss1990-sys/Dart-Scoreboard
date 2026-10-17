@@ -31,7 +31,8 @@ Lade `index.html`, `style.css` und `app.js` gemeinsam in denselben Ordner und ö
 - Bei X01-Eingabe einer **Gesamtsumme** kann der letzte Dart nicht automatisch erkannt werden. Ein Double-Out-Checkout muss deshalb ausdrücklich als korrektes Doppel bestätigt werden.
 - Cricket braucht Feldinformationen. Im Gesamteingabemodus werden daher bis zu drei einzelne Treffer gesammelt und **gemeinsam übernommen**.
 - Die angezeigte Statistik verwendet bei X01 den 3-Dart-Average und bei Cricket Punkte pro Dart. Beim Bust wird die komplette Aufnahme als drei Darts gerechnet.
-- Bei Cricket mit genau einem Spieler wird statt der Punktzahl der Fortschritt der sieben geschlossenen Felder dargestellt.\n- Noch ohne automatische Browser-Tests und Leg-/Set-System.
+- Bei Cricket mit genau einem Spieler wird statt der Punktzahl der Fortschritt der sieben geschlossenen Felder dargestellt.
+- Noch ohne automatische Browser-Tests und Leg-/Set-System.
 
 ## Dateien
 
