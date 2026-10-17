@@ -1,6 +1,7 @@
 "use strict";
 const STORE="dartboard-v1-state";
 const TARGETS=[20,19,18,17,16,15,25];
+const closedCount=player=>TARGETS.filter(n=>player.marks[n]>=3).length;
 const $=id=>document.getElementById(id);
 const safe=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let game=null,undo=[],entryMode="single",mult=1,draft=[];
@@ -158,7 +159,8 @@ function render(){
  $("roundLabel").textContent="Runde "+game.round;
  const winner=game.winner===null?null:game.players[game.winner];
  announce(winner?winner.name+" hat das Spiel gewonnen! 🏆":active().name+" ist am Zug");
- $("playersGrid").innerHTML=game.players.map((p,i)=>'<article class="player-card '+(game.active===i&&game.winner===null?'current ':'')+(game.winner===i?'winner':'')+'"><div class="tag">'+(game.winner===i?'🏆 GEWINNER':game.active===i&&game.winner===null?'● AM ZUG':'SPIELER '+(i+1))+'</div><div class="player-name">'+safe(p.name)+'</div><div class="player-score">'+p.score+'</div><div class="player-meta"><span>'+(isCricket()?'Cricket-Punkte':'Restpunkte')+'</span><span>'+p.darts+' Darts</span></div></article>').join("");
+ const soloCricket=isCricket()&&game.players.length===1;
+ $("playersGrid").innerHTML=game.players.map((p,i)=>'<article class="player-card '+(game.active===i&&game.winner===null?'current ':'')+(game.winner===i?'winner':'')+'"><div class="tag">'+(game.winner===i?'🏆 GEWINNER':game.active===i&&game.winner===null?'● AM ZUG':'SPIELER '+(i+1))+'</div><div class="player-name">'+safe(p.name)+'</div><div class="player-score">'+(soloCricket?closedCount(p)+" / "+TARGETS.length:p.score)+'</div><div class="player-meta"><span>'+(soloCricket?'Felder geschlossen':isCricket()?'Cricket-Punkte':'Restpunkte')+'</span><span>'+p.darts+' Darts</span></div></article>').join("");
  $("activePlayerName").textContent=winner?"Spiel beendet":active().name;
  $("throwCount").textContent=winner?"🏆 Sieg":"Dart "+Math.min(game.turn.length+1,3)+" von 3";
  $("turnProgress").innerHTML=[0,1,2].map(i=>'<span class="dart-chip '+(game.turn[i]?'filled':'')+'">'+(game.turn[i]?safe(game.turn[i].label):"Dart "+(i+1))+'</span>').join("");
