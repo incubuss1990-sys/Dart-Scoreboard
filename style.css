@@ -8,6 +8,6 @@
 
 /* Geschlossene Cricket-Felder kompakt neben dem Punktestand */
 .cricket-closed-caption{margin-top:10px;margin-bottom:6px;color:var(--muted);font-size:11px}
-.cricket-closed-fields{display:flex;flex-wrap:wrap;gap:5px;align-items:center;min-height:23px}
-.cricket-field-chip{display:inline-flex;align-items:center;justify-content:center;border:1px solid #a8ef645e;background:#a8ef6416;border-radius:6px;padding:3px 6px;color:var(--accent);font-size:11px;line-height:1.4;font-weight:750}
-.cricket-field-empty{color:var(--muted);font-size:11px}
+.cricket-closed-fields{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;align-items:stretch}
+.cricket-field-chip{display:flex;min-width:0;align-items:center;justify-content:center;border:1px solid var(--border);background:var(--panel2);border-radius:6px;padding:5px 2px;color:var(--muted);font-size:11px;line-height:1.35;font-weight:750;font-variant-numeric:tabular-nums;transition:background .18s ease,color .18s ease,border-color .18s ease}
+.cricket-field-chip.is-closed{border-color:#a8ef6480;background:#a8ef6426;color:var(--accent)}
