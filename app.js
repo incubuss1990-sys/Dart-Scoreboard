@@ -2,7 +2,12 @@
 const STORE="dartboard-v1-state";
 const TARGETS=[20,19,18,17,16,15,25];
 const closedCount=player=>TARGETS.filter(n=>player.marks[n]>=3).length;
-const closedFieldsMarkup=player=>{const closed=TARGETS.filter(n=>player.marks[n]>=3);return closed.length?closed.map(n=>'<span class="cricket-field-chip">'+(n===25?'Bull':n)+'</span>').join(''):'<span class="cricket-field-empty">Noch keine</span>';};
+const cricketFieldsMarkup=player=>TARGETS.map(n=>{
+ const hits=Number(player.marks[n]||0);
+ const closed=hits>=3;
+ const label=n===25?"Bull":String(n);
+ return '<span class="cricket-field-chip'+(closed?' is-closed':'')+'" title="'+label+': '+Math.min(hits,3)+' von 3 Treffern" aria-label="'+label+': '+(closed?'geschlossen':Math.min(hits,3)+' von 3 Treffern')+'">'+label+'</span>';
+}).join('');
 const $=id=>document.getElementById(id);
 const safe=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let game=null,undo=[],entryMode="single",mult=1,draft=[];
@@ -161,7 +166,7 @@ function render(){
  const winner=game.winner===null?null:game.players[game.winner];
  announce(winner?winner.name+" hat das Spiel gewonnen! 🏆":active().name+" ist am Zug");
  const soloCricket=isCricket()&&game.players.length===1;
- $("playersGrid").innerHTML=game.players.map((p,i)=>'<article class="player-card '+(game.active===i&&game.winner===null?'current ':'')+(game.winner===i?'winner':'')+'"><div class="tag">'+(game.winner===i?'🏆 GEWINNER':game.active===i&&game.winner===null?'● AM ZUG':'SPIELER '+(i+1))+'</div><div class="player-name">'+safe(p.name)+'</div><div class="player-score">'+(soloCricket?closedCount(p)+" / "+TARGETS.length:p.score)+'</div><div class="player-meta"><span>'+(soloCricket?'Felder geschlossen':isCricket()?'Cricket-Punkte':'Restpunkte')+'</span><span>'+p.darts+' Darts</span></div>'+(isCricket()?'<div class="cricket-progress"><div class="cricket-progress-text"><span>'+(soloCricket?'Cricket-Punkte':'Felder geschlossen')+'</span><strong>'+(soloCricket?p.score:closedCount(p)+' / '+TARGETS.length)+'</strong></div><div class="cricket-progress-bar"><span style="width:'+Math.round(closedCount(p)/TARGETS.length*100)+'%"></span></div><div class="cricket-closed-caption">Geschlossene Felder</div><div class="cricket-closed-fields">'+closedFieldsMarkup(p)+'</div></div>':'')+'</article>').join("");
+ $("playersGrid").innerHTML=game.players.map((p,i)=>'<article class="player-card '+(game.active===i&&game.winner===null?'current ':'')+(game.winner===i?'winner':'')+'"><div class="tag">'+(game.winner===i?'🏆 GEWINNER':game.active===i&&game.winner===null?'● AM ZUG':'SPIELER '+(i+1))+'</div><div class="player-name">'+safe(p.name)+'</div><div class="player-score">'+(soloCricket?closedCount(p)+" / "+TARGETS.length:p.score)+'</div><div class="player-meta"><span>'+(soloCricket?'Felder geschlossen':isCricket()?'Cricket-Punkte':'Restpunkte')+'</span><span>'+p.darts+' Darts</span></div>'+(isCricket()?'<div class="cricket-progress"><div class="cricket-progress-text"><span>'+(soloCricket?'Cricket-Punkte':'Felder geschlossen')+'</span><strong>'+(soloCricket?p.score:closedCount(p)+' / '+TARGETS.length)+'</strong></div><div class="cricket-progress-bar"><span style="width:'+Math.round(closedCount(p)/TARGETS.length*100)+'%"></span></div><div class="cricket-closed-caption">Alle Cricket-Felder</div><div class="cricket-closed-fields">'+cricketFieldsMarkup(p)+'</div></div>':'')+'</article>').join("");
  $("activePlayerName").textContent=winner?"Spiel beendet":active().name;
  $("throwCount").textContent=winner?"🏆 Sieg":"Dart "+Math.min(game.turn.length+1,3)+" von 3";
  $("turnProgress").innerHTML=[0,1,2].map(i=>'<span class="dart-chip '+(game.turn[i]?'filled':'')+'">'+(game.turn[i]?safe(game.turn[i].label):"Dart "+(i+1))+'</span>').join("");
