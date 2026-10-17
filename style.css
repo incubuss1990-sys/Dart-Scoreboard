@@ -5,3 +5,9 @@
 .cricket-progress-text strong{color:var(--accent);font-size:13px;font-variant-numeric:tabular-nums}
 .cricket-progress-bar{height:5px;border-radius:999px;background:var(--panel2);overflow:hidden;margin-top:9px}
 .cricket-progress-bar>span{height:100%;background:var(--accent);display:block;border-radius:999px;transition:width .2s ease}
+
+/* Geschlossene Cricket-Felder kompakt neben dem Punktestand */
+.cricket-closed-caption{margin-top:10px;margin-bottom:6px;color:var(--muted);font-size:11px}
+.cricket-closed-fields{display:flex;flex-wrap:wrap;gap:5px;align-items:center;min-height:23px}
+.cricket-field-chip{display:inline-flex;align-items:center;justify-content:center;border:1px solid #a8ef645e;background:#a8ef6416;border-radius:6px;padding:3px 6px;color:var(--accent);font-size:11px;line-height:1.4;font-weight:750}
+.cricket-field-empty{color:var(--muted);font-size:11px}
